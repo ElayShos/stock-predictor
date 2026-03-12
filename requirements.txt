@@ -1,0 +1,10 @@
+yfinance
+pandas
+numpy
+scikit-learn
+matplotlib
+fastapi
+uvicorn
+plotly
+streamlit
+ta
