@@ -1,31 +1,35 @@
 import pandas as pd
 
 
-def create_target(df: pd.DataFrame):
+class FeatureEngineer:
 
-    # predict if tomorrow goes up
-    df["Tomorrow"] = df["Close"].shift(-1)
+    def __init__(self, weeks_forward):
+        self.weeks_forward = weeks_forward
 
-    df["Target"] = (df["Tomorrow"] > df["Close"]).astype(int)
+    def create_target(self, df):
 
-    return df
+        future_price = df["Close"].shift(-self.weeks_forward)
 
+        df["Future_Return"] = (future_price / df["Close"]) - 1
 
-def prepare_features(df: pd.DataFrame):
+        return df
 
-    df = create_target(df)
+    def prepare(self, df):
 
-    features = [
-        "Close",
-        "Volume",
-        "SMA_20",
-        "SMA_50",
-        "RSI"
-    ]
+        features = [
+            "Close",
+            "Volume",
+            "SMA_10",
+            "SMA_30",
+            "RSI",
+            "Return_1M",
+            "Return_3M",
+            "Return_6M"
+        ]
 
-    df = df.dropna()
+        df = df.dropna()
 
-    X = df[features]
-    y = df["Target"]
+        X = df[features]
+        y = df["Future_Return"]
 
-    return X, y
+        return X, y

@@ -3,19 +3,21 @@ import pandas as pd
 from pathlib import Path
 
 
-DATA_PATH = Path("data/raw")
+class StockDataCollector:
 
+    def __init__(self, data_folder="data/raw"):
+        self.data_folder = Path(data_folder)
+        self.data_folder.mkdir(parents=True, exist_ok=True)
 
-def download_stock(ticker: str, period="5y", interval="1d"):
+    def download(self, ticker, period="10y"):
 
-    DATA_PATH.mkdir(parents=True, exist_ok=True)
+        df = yf.download(ticker, period=period)
 
-    data = yf.download(ticker, period=period, interval=interval)
+        # Fix multi-index columns if needed
+        if isinstance(df.columns, pd.MultiIndex):
+            df.columns = df.columns.get_level_values(0)
 
-    if isinstance(data.columns, pd.MultiIndex):
-        data.columns = data.columns.get_level_values(0)
+        file_path = self.data_folder / f"{ticker}.csv"
+        df.to_csv(file_path)
 
-    file_path = DATA_PATH / f"{ticker}.csv"
-    data.to_csv(file_path)
-
-    return data
+        return df

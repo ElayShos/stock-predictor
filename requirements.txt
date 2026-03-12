@@ -8,3 +8,5 @@ uvicorn
 plotly
 streamlit
 ta
+requests
+lxml

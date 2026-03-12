@@ -1,34 +1,29 @@
 import pandas as pd
 
 
-def add_moving_averages(df: pd.DataFrame):
+class IndicatorCalculator:
 
-    df["SMA_20"] = df["Close"].rolling(window=20).mean()
-    df["SMA_50"] = df["Close"].rolling(window=50).mean()
+    def add_indicators(self, df: pd.DataFrame):
 
-    return df
+        df = df.resample("W").last()
 
+        df["SMA_10"] = df["Close"].rolling(10).mean()
+        df["SMA_30"] = df["Close"].rolling(30).mean()
 
-def add_rsi(df: pd.DataFrame, window=14):
+        delta = df["Close"].diff()
 
-    delta = df["Close"].diff()
+        gain = delta.clip(lower=0)
+        loss = -delta.clip(upper=0)
 
-    gain = delta.clip(lower=0)
-    loss = -delta.clip(upper=0)
+        avg_gain = gain.rolling(14).mean()
+        avg_loss = loss.rolling(14).mean()
 
-    avg_gain = gain.rolling(window).mean()
-    avg_loss = loss.rolling(window).mean()
+        rs = avg_gain / avg_loss
 
-    rs = avg_gain / avg_loss
+        df["RSI"] = 100 - (100 / (1 + rs))
 
-    df["RSI"] = 100 - (100 / (1 + rs))
+        df["Return_1M"] = df["Close"].pct_change(4)
+        df["Return_3M"] = df["Close"].pct_change(12)
+        df["Return_6M"] = df["Close"].pct_change(26)
 
-    return df
-
-
-def compute_indicators(df: pd.DataFrame):
-
-    df = add_moving_averages(df)
-    df = add_rsi(df)
-
-    return df
+        return df
