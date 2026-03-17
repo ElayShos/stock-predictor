@@ -1,139 +1,77 @@
-# S&P 500 Stock Prediction Pipeline
+# S&P 500 Stock Prediction
 
-A machine learning pipeline that analyzes historical stock market data and predicts future returns for S&P 500 companies using technical indicators.
+This is a small project that tries to predict stock returns for S&P 500 companies using historical data and a machine learning model.
 
-This project demonstrates a full data science workflow including data collection, feature engineering, model training, and evaluation on historical financial data.
-
----
-
-## Overview
-
-The pipeline performs the following steps:
-
-1. Download historical stock data for all S&P 500 companies
-2. Compute technical indicators (RSI, moving averages, momentum)
-3. Generate future return targets
-4. Train a machine learning model to predict future returns
-5. Evaluate model performance using historical data
-
-The prediction horizon is configurable, allowing users to estimate returns several months into the future.
+The idea is to take past price data, calculate a few technical indicators, and use them to estimate whether a stock will go up or down in the future.
 
 ---
 
-## Features
+## What it does
 
-* Automatic download of S&P 500 stock data
-* Feature engineering using technical indicators
-* Configurable prediction horizon (months)
-* Random Forest machine learning model
-* Model evaluation using multiple metrics
-
-Evaluation metrics include:
-
-* Mean Absolute Error (MAE)
-* R² Score
-* Direction Accuracy
-
-Direction accuracy measures how often the model correctly predicts whether returns will be positive or negative.
+* Downloads historical stock data
+* Calculates indicators like moving averages, RSI, etc.
+* Trains a Random Forest model
+* Predicts future returns based on a chosen time horizon
 
 ---
 
-## Project Structure
+## How to run
+
+Clone the repo:
 
 ```
-stock-predictor/
-│
-├── src/
-│   ├── data_collector.py
-│   ├── indicators.py
-│   ├── feature_engineering.py
-│   ├── model.py
-│   └── sp500.py
-│
-├── run.py
-├── requirements.txt
-└── README.md
-```
-
----
-
-## Installation
-
-Clone the repository:
-
-```
-git clone git clone https://github.com/ElayShos/stock-predictor.git
-
+git clone https://github.com/ElayShos/stock-predictor.git
 cd stock-predictor
 ```
 
-Install dependencies:
+Install requirements:
 
 ```
 pip install -r requirements.txt
 ```
 
----
-
-## Usage
-
-Run the program:
+Run:
 
 ```
 python run.py
 ```
 
-The program will:
+You’ll be asked to enter how many months ahead you want to predict.
 
-1. Download historical market data
-2. Ask for a prediction horizon in months
-3. Train the machine learning model
-4. Output a market prediction
+---
 
 ## Example
+
 ```
 Enter prediction horizon in months: 3
 ```
 
-Output:
+Output will include:
 
-```
-Prediction horizon: 3 months
-Expected return: 4.2%
-Expected direction: UP
-
-Mean Absolute Error: 0.17
-R2 score: 0.02
-Direction accuracy: 0.64
-```
+* predicted return
+* whether the model thinks the market will go up or down
+* some basic evaluation metrics
 
 ---
 
-## Technologies Used
+## Notes
+
+* This is just an experiment and not meant for real trading
+* Results are pretty limited (as expected with this kind of data)
+* Built mainly to practice working with data and ML
+
+---
+
+## Tech used
 
 * Python
-* Pandas
-* NumPy
-* Scikit-learn
+* pandas
+* scikit-learn
 * yfinance
-
----
-
-## Future Improvements
-
-Possible extensions for the project:
-
-* Compare additional models (Gradient Boosting, XGBoost)
-* Incorporate macroeconomic indicators
-* Perform full backtesting of trading strategies
-* Add a visualization dashboard
 
 ---
 
 ## Author
 
 Elay Shostak
-Computer Science Student – Holon Institute of Technology
-
-GitHub:
-https://github.com/ElayShos
+Computer Science Student
